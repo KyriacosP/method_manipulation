@@ -8,14 +8,13 @@ class MethodContainer extends React.Component{
       isHidden:true,
       selectionG:[]
     }
-    this.handleClick=this.handleClick.bind(this);
   }
 
   updateGlobalSelection(){
 
   }
 
-  handleClick(){
+  handleClick=()=>{
     this.setState(prevState => {return {isHidden:!prevState.isHidden}});
     //console.log(this.state.isHidden);
   }

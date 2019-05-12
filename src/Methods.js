@@ -9,7 +9,6 @@ class Methods extends React.Component{
       apiDesc:{},
       paths:[]
     };
-    this.manageData=this.manageData.bind(this);
   }
 
   componentDidMount(){
@@ -21,7 +20,7 @@ class Methods extends React.Component{
     .then(data=>this.setState({isLoading:false}))
   }
 
-  manageData(onSuccess,onFail){
+  manageData=(onSuccess,onFail)=>{
     // return new Promise((resolve, reject) => {
     //   setTimeout(function() {
     //     resolve(alert("hi"));
@@ -33,6 +32,18 @@ class Methods extends React.Component{
       resolve(true);
     })
   }
+  // manageData(onSuccess,onFail){
+  //   // return new Promise((resolve, reject) => {
+  //   //   setTimeout(function() {
+  //   //     resolve(alert("hi"));
+  //   //   }, 2000);
+  //   // })
+  //   return new Promise((resolve, reject) => {
+  //     let p = Object.entries(this.state.apiDesc.paths);
+  //     this.setState({paths:p});
+  //     resolve(true);
+  //   })
+  // }
 
 
 

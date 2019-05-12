@@ -11,8 +11,6 @@ class MethodResponseGrid extends React.Component{
       selection: []
     };
 
-    this.onRowSelection = this.onRowSelection.bind(this);
-
   }
 
   componentDidMount(){
@@ -42,7 +40,7 @@ class MethodResponseGrid extends React.Component{
 
   }
 
-  onRowSelection(rows){
+  onRowSelection=(rows)=>{
     const selectedFeeds = [];
     this.state.selection.forEach((feed, i) => {
       feed.selected = rows.indexOf(i) > -1;
