@@ -10,20 +10,16 @@ class MethodContainer extends React.Component{
     }
   }
 
-  updateGlobalSelection(){
-
-  }
 
   handleClick=()=>{
     this.setState(prevState => {return {isHidden:!prevState.isHidden}});
-    //console.log(this.state.isHidden);
   }
   render(){
     return(
       <React.Fragment>
         <div onClick={this.handleClick}>
-          Path: {this.props.path}
-          Method: {Object.keys(this.props.method)}
+          Path: {this.props.method.path}
+          Method: {this.props.method.type}
 
         </div>
         <MethodResponseGrid method={this.props.method} hidden={this.state.isHidden}/>

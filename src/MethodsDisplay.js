@@ -1,7 +1,8 @@
 import React from 'react';
 import MethodContainer from './MethodContainer'
+import ApiSpec from './ApiSpec'
 
-class Methods extends React.Component{
+class MethodsDisplay extends React.Component{
   constructor(){
     super();
     this.state={
@@ -9,16 +10,28 @@ class Methods extends React.Component{
       apiDesc:{},
       paths:[]
     };
+
+
   }
 
   componentDidMount(){
     this.setState({isLoading:true});
     fetch("http://localhost:1880/apidescription")
     .then(data=>data.json())
-    .then(data=>this.setState({apiDesc: data}))
-    .then(data=>this.manageData())
+    .then(data=>this.setState({apiDesc: new ApiSpec(data)}))
+    .then(data=>console.log(this.state.apiDesc))
+    // .then(data=>this.manageData())
     .then(data=>this.setState({isLoading:false}))
   }
+
+  // componentDidMount(){
+  //   this.setState({isLoading:true});
+  //   fetch("http://localhost:1880/apidescription")
+  //   .then(data=>data.json())
+  //   .then(data=>this.setState({apiDesc: data}))
+  //   .then(data=>this.manageData())
+  //   .then(data=>this.setState({isLoading:false}))
+  // }
 
   manageData=(onSuccess,onFail)=>{
     // return new Promise((resolve, reject) => {
@@ -32,19 +45,6 @@ class Methods extends React.Component{
       resolve(true);
     })
   }
-  // manageData(onSuccess,onFail){
-  //   // return new Promise((resolve, reject) => {
-  //   //   setTimeout(function() {
-  //   //     resolve(alert("hi"));
-  //   //   }, 2000);
-  //   // })
-  //   return new Promise((resolve, reject) => {
-  //     let p = Object.entries(this.state.apiDesc.paths);
-  //     this.setState({paths:p});
-  //     resolve(true);
-  //   })
-  // }
-
 
 
   render(){
@@ -53,10 +53,9 @@ class Methods extends React.Component{
         <div>Loading...</div>
       );
     } else{
-      //console.log(this.state.paths);
       const elems=[];
-      for (const [path, method] of this.state.paths){
-        elems.push(<MethodContainer key={path} path={path} method={method}/>);
+      for (var m in this.state.apiDesc.methods){
+        elems.push(<MethodContainer key={m} method={this.state.apiDesc.methods[m]}/>);
       }
       return(
         <form>
@@ -69,4 +68,4 @@ class Methods extends React.Component{
 
   }
 
-  export default Methods
+  export default MethodsDisplay

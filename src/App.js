@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header'
-import Methods from './Methods'
+import MethodsDisplay from './MethodsDisplay'
 
 class App extends React.Component {
 
@@ -13,7 +13,7 @@ class App extends React.Component {
     return(
       <React.Fragment>
         <Header/>
-        <Methods/>
+        <MethodsDisplay/>
       </React.Fragment>
     )
   }
