@@ -25,12 +25,12 @@ class MethodResponseGrid extends React.Component{
     if(schema.type === "object"){
       var temp1 = Object.entries(schema.properties);
       for(var i in temp1){
-        rows.push({selected:false,name: temp1[i][0], type: temp1[i][1].type, parameters:par});
+        rows.push({selected:false,name: temp1[i][0], type: temp1[i][1].type, parameters:par, partof:method.operationId});
       }
     }else{
       var temp2 = Object.entries(schema.items.properties);
       for(var j in temp2){
-        rows.push({selected:false,name: temp2[j][0], type: temp2[j][1].type, parameters:par});
+        rows.push({selected:false,name: temp2[j][0], type: temp2[j][1].type, parameters:par, partof:method.operationId});
       }
     }
 
@@ -44,10 +44,11 @@ class MethodResponseGrid extends React.Component{
       feed.selected = rows.indexOf(i) > -1;
       selectedFeeds.push(feed);
     });
-    this.setState({selection: selectedFeeds});
-    // this.setState({selection: selectedFeeds}, () => {
-    //   console.log(this.state.selection);
-    // });
+    //this.setState({selection: selectedFeeds});
+    this.setState({selection: selectedFeeds}, () => {
+      this.props.updateState(selectedFeeds);
+      // console.log(this.state.selection);
+    });
   }
 
   render() {

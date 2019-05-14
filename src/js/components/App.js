@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './Header'
 import MethodsDisplay from './MethodsDisplay'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
 
 class App extends React.Component {
 
@@ -10,11 +12,17 @@ class App extends React.Component {
   }
 
   render(){
+    const theme = createMuiTheme({
+      palette: {
+        primary: {main:'#808999'},
+        secondary: {main:'#336b87'}
+      }
+    });
     return(
-      <React.Fragment>
+      <MuiThemeProvider theme={theme}>
         <Header/>
         <MethodsDisplay/>
-      </React.Fragment>
+      </MuiThemeProvider>
     )
   }
 }

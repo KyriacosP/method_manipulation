@@ -1,13 +1,17 @@
 import React from 'react';
 import MethodResponseGrid from './MethodResponseGrid'
+import Paper from '@material-ui/core/Paper';
 
 class MethodContainer extends React.Component{
   constructor(props){
     super(props);
     this.state={
       isHidden:true,
-      selectionG:[]
     }
+  }
+
+  updateState=(sel)=>{
+    this.props.updateGlobalSelection(this.props.id,sel);
   }
 
 
@@ -17,12 +21,12 @@ class MethodContainer extends React.Component{
   render(){
     return(
       <React.Fragment>
-        <div onClick={this.handleClick}>
+        <Paper onClick={this.handleClick}>
           Path: {this.props.method.path}
           Method: {this.props.method.type}
 
-        </div>
-        <MethodResponseGrid method={this.props.method} hidden={this.state.isHidden}/>
+        </Paper>
+        <MethodResponseGrid method={this.props.method} updateState={this.updateState} hidden={this.state.isHidden}/>
 
       </React.Fragment>
     );
