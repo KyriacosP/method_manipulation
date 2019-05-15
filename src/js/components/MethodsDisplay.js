@@ -11,6 +11,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+// import postBody from '../../resources/post_body.json';
+import postResponse from '../../resources/post_response.json';
 
 
 
@@ -61,12 +63,49 @@ class MethodsDisplay extends React.Component{
 
   componentDidMount(){
     this.setState({isLoading:true});
-    fetch("http://localhost:1880/apidescription")
-    .then(data=>data.json())
-    .then(data=>this.setState({apiDesc: new ApiSpec(data)}))
-    // .then(data=>console.log(this.state.apiDesc))
-    .then(data=>this.setState({isLoading:false}))
+    console.log(postResponse.candidates[1].blueprint.EXPOSED_API);
+    this.setState({apiDesc: new ApiSpec(postResponse.candidates[1].blueprint.EXPOSED_API)});
+    this.setState({isLoading:false});
   }
+  // componentDidMount(){
+  //   this.setState({isLoading:true});
+  //   fetch("http://localhost:1880/apidescription")
+  //   .then(data=>data.json())
+  //   .then(data=>this.setState({apiDesc: new ApiSpec(data)}))
+  //   // .then(data=>console.log(this.state.apiDesc))
+  //   .then(data=>this.setState({isLoading:false}))
+  // }
+
+  // componentDidMount(){
+  //   this.setState({isLoading:true});
+  //   // fetch("http://localhost:1880/apidescription")
+  //   // .then(data=>data.json())
+  //   // .then(data=>this.setState({apiDesc: new ApiSpec(data)}))
+  //   // // .then(data=>console.log(this.state.apiDesc))
+  //   // .then(data=>this.setState({isLoading:false}))
+  //
+  //   function postData(url = '', data = {}) {
+  //     // Default options are marked with *
+  //       return fetch(url, {
+  //           method: 'POST', // *GET, POST, PUT, DELETE, etc.
+  //           mode: 'cors', // no-cors, cors, *same-origin
+  //           cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  //           credentials: 'same-origin', // include, *same-origin, omit
+  //           headers: {
+  //               'Content-Type': 'application/json',
+  //               // 'Content-Type': 'application/x-www-form-urlencoded',
+  //           },
+  //           redirect: 'follow', // manual, *follow, error
+  //           referrer: 'no-referrer', // no-referrer, *client
+  //           body: JSON.stringify(data), // body data type must match "Content-Type" header
+  //       })
+  //       .then(response => response.json()); // parses JSON response into native Javascript objects
+  //   }
+  //
+  //   postData('http://31.171.247.162:50011/searchBlueprintByReq_DureRequest', postBody)
+  //     .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+  //     .catch(error => console.error(error));
+  // }
 
   updateGlobalSelection=(id,sel)=>{
     this.setState(prevState=>{

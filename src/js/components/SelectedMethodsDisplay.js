@@ -41,6 +41,7 @@ class SelectedMethodsDisplay extends React.Component{
         <React.Fragment>
           {elems}
           <Button variant="contained" color="primary" >Create New API</Button>
+          <Button variant="contained" color="secondary" >Submit</Button>
         </React.Fragment>
       )
     } else {
