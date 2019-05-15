@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Delete from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
 const stylePaper = {
   marginBottom: "1em"
@@ -35,9 +36,20 @@ class SelectedMethodsDisplay extends React.Component{
               </IconButton>
         </Paper>);
     }
-    return (
-      elems
-    );
+    if(elems.length !== 0) {
+      return (
+        <React.Fragment>
+          {elems}
+          <Button variant="contained" color="primary" >Create New API</Button>
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <Typography variant="h6" color="textSecondary">
+          Waiting...
+        </Typography>
+      )
+    }
   }
 }
 

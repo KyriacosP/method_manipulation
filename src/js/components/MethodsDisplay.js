@@ -97,7 +97,7 @@ class MethodsDisplay extends React.Component{
 
   handleDelete=(m)=>{
     this.setState(prevState=>{
-      let tmp=prevState.selectedMethods.splice(m,1);
+      prevState.selectedMethods.splice(m,1);
       return {selectedMethods:prevState.selectedMethods};
     })
 
