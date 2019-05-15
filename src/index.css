@@ -1,11 +1,9 @@
 body {}
 
-.Mcontainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-template-rows: 200px;
-}
-
 .hidden {
   display: none;
+}
+
+html {
+  font-size: 62.5%; /* 62.5% of 16px = 10px */
 }

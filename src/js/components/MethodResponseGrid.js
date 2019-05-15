@@ -2,6 +2,11 @@ import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+const styleGrid = {
+  marginTop: "-1em",
+  marginBottom: "1em",
+  backgroundColor: "primary"
+};
 
 class MethodResponseGrid extends React.Component{
   constructor(props){
@@ -54,25 +59,25 @@ class MethodResponseGrid extends React.Component{
   render() {
     if(!this.props.hidden){
     return (
-      <MuiThemeProvider>
-      <Table multiSelectable={true} onRowSelection={this.onRowSelection}>
-      <TableHeader displaySelectAll={false}>
-      <TableRow>
-      <TableHeaderColumn>Name</TableHeaderColumn>
-      <TableHeaderColumn>Type</TableHeaderColumn>
-      <TableHeaderColumn>Parameters</TableHeaderColumn>
-      </TableRow>
-      </TableHeader>
-      <TableBody deselectOnClickaway={false}>
-      {this.state.selection.map(row => (
-        <TableRow key={row.name} selected={row.selected}>
-        <TableRowColumn>{row.name}</TableRowColumn>
-        <TableRowColumn>{row.type}</TableRowColumn>
-        <TableRowColumn>{row.parameters}</TableRowColumn>
-        </TableRow>
-      ))}
-      </TableBody>
-      </Table>
+      <MuiThemeProvider >
+        <Table style={styleGrid} multiSelectable={true} onRowSelection={this.onRowSelection}>
+          <TableHeader displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn style={{width: '50%',margin: 0}}>Name</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '20%',margin: 0}}>Type</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '30%',margin: 0}}>Parameters</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody deselectOnClickaway={false}>
+            {this.state.selection.map(row => (
+              <TableRow key={row.name} selected={row.selected}>
+                <TableRowColumn style={{width: '50%',margin: 0}}>{row.name}</TableRowColumn>
+                <TableRowColumn style={{width: '20%',margin: 0}}>{row.type}</TableRowColumn>
+                <TableRowColumn style={{width: '30%',margin: 0}}>{row.parameters}</TableRowColumn>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </MuiThemeProvider>
     );
   }else{

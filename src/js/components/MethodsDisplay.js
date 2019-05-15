@@ -12,7 +12,8 @@ class MethodsDisplay extends React.Component{
     this.state={
       isLoading:false,
       apiDesc:{},
-      selection:[]
+      selection:[],
+      selectedMethods:[]
     };
 
 
@@ -35,6 +36,15 @@ class MethodsDisplay extends React.Component{
     console.log(this.state.selection);
   }
 
+  handleMethodSelection=(methodSelected)=>{
+    this.setState(prevState=>{
+      let tmp=prevState.selectedMethods;
+      tmp.push(methodSelected);
+      return {selectedMethods:tmp};
+    })
+    console.log(this.state.selectedMethods);
+  }
+
 
   render(){
     if(this.state.isLoading){
@@ -44,19 +54,20 @@ class MethodsDisplay extends React.Component{
     } else{
       const elems=[];
       for (var m in this.state.apiDesc.methods){
-        elems.push(<MethodContainer key={m} id={m} updateGlobalSelection={this.updateGlobalSelection} method={this.state.apiDesc.methods[m]}/>);
+        elems.push(<MethodContainer key={m} id={m} handleMethodSelection={this.handleMethodSelection} updateGlobalSelection={this.updateGlobalSelection} method={this.state.apiDesc.methods[m]}/>);
       }
       return(
         <Grid
           container
           direction="row"
           justify="center"
-          alignItems="center"
+          alignItems="flex-start"
           spacing={8}
         >
           <Grid item xs={6}>
             <form>
               {elems}
+              <br/>
               <Button variant="contained" color="primary">Submit!</Button>
             </form>
           </Grid>
