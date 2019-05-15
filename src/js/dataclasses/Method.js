@@ -1,4 +1,5 @@
 class Method {
+
   constructor(path,desc){
     this.path=path;
     this.type=Object.keys(desc)[0];
