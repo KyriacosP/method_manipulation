@@ -26,8 +26,6 @@ class MethodsDisplay extends React.Component{
       selectedMethods:[],
       open:false,
       form:{
-        path:"",
-        type: "get",
         summary: "",
         description: "",
         operationId: ""
@@ -55,7 +53,14 @@ class MethodsDisplay extends React.Component{
     this.setState(prevState=>{
       let tmp=prevState.selectedMethods;
       tmp.push(new Method(prevState.form.path,desc));
-      return {selectedMethods:tmp};
+      return {
+        selectedMethods:tmp,
+        form:{
+          summary:"",
+          description:"",
+          operationId:""
+        }
+      };
     })
 
   };
@@ -63,7 +68,6 @@ class MethodsDisplay extends React.Component{
 
   componentDidMount(){
     this.setState({isLoading:true});
-    console.log(postResponse.candidates[1].blueprint.EXPOSED_API);
     this.setState({apiDesc: new ApiSpec(postResponse.candidates[1].blueprint.EXPOSED_API)});
     this.setState({isLoading:false});
   }
@@ -119,8 +123,7 @@ class MethodsDisplay extends React.Component{
       let tmp=prevState.selectedMethods;
       tmp.push(methodSelected);
       return {selectedMethods:tmp};
-    })
-    console.log(this.state.selectedMethods);
+    });
   }
 
   handleChange = name=>({target:{value}}) => {
@@ -209,24 +212,6 @@ class MethodsDisplay extends React.Component{
                   value={this.state.form.operationId}
                   onChange={this.handleChange("operationId")}
                   fullWidth
-                  margin="normal"
-                />
-                <br/>
-                <TextField
-                  required
-                  fullWidth
-                  label="path"
-                  value={this.state.form.path}
-                  onChange={this.handleChange("path")}
-                  margin="normal"
-                />
-                <br/>
-                <TextField
-                  disabled
-                  fullWidth
-                  label="type"
-                  value={this.state.form.type}
-                  onChange={this.handleChange("type")}
                   margin="normal"
                 />
                 <br/>
