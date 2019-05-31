@@ -1,0 +1,696 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Analytics data getting API",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/Metryus/mm-analytics-data-server/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "http://3.122.254.161:8082/api/v1/mmantd",
+    "description" : "Development environment"
+  } ],
+  "security" : [ {
+    "password" : [ "read" ]
+  } ],
+  "paths" : {
+    "/meetings/employees/current/meetings-rating" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-as-host" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-as-attendee" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-platform-amount" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/attendees-average-per-meeting" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/attendees-total" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/attendees-unique-total" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/as-attendee-amount" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/as-host-amount" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/hosts-rating" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-duration-average" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-duration-total" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_9"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/meetings-start-end" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_10"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meetings/employees/current/participants-countries" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_11"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "EmployeeMeeting" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "meetingSummary" : {
+            "type" : "string"
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "durationSeconds" : {
+            "type" : "integer"
+          },
+          "meetingRate" : {
+            "type" : "integer"
+          },
+          "host" : {
+            "type" : "string"
+          },
+          "employeeIsHost" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EmployeeMeeting"
+            }
+          }
+        }
+      },
+      "inline_response_200_1_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "meetingPlatform" : {
+            "type" : "string"
+          },
+          "count" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_1_data"
+          }
+        }
+      },
+      "inline_response_200_2_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "attendeesAvgPerMeeting" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_2_data"
+          }
+        }
+      },
+      "inline_response_200_3_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "attendeesTotal" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_3_data"
+          }
+        }
+      },
+      "inline_response_200_4_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "attendeesUnqTotal" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_4" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_4_data"
+          }
+        }
+      },
+      "inline_response_200_5_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "asAttendeeCount" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_5" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_5_data"
+          }
+        }
+      },
+      "inline_response_200_6_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "asHostCount" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_6" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_6_data"
+          }
+        }
+      },
+      "inline_response_200_7_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "averageRate" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_7" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_7_data"
+            }
+          }
+        }
+      },
+      "inline_response_200_8_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "averageDuration" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_8" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_8_data"
+          }
+        }
+      },
+      "inline_response_200_9_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "meetingTotalDuration" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_9" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_200_9_data"
+          }
+        }
+      },
+      "inline_response_200_10_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "meetingId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "meetingSummary" : {
+            "type" : "string"
+          },
+          "startDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "endDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "inline_response_200_10" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_10_data"
+            }
+          }
+        }
+      },
+      "inline_response_200_11_data" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "employeeId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "country" : {
+            "type" : "string"
+          },
+          "count" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_11" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_11_data"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "from" : {
+        "name" : "from",
+        "in" : "query",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      },
+      "to" : {
+        "name" : "to",
+        "in" : "query",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      },
+      "page" : {
+        "name" : "page",
+        "in" : "query",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      },
+      "size" : {
+        "name" : "size",
+        "in" : "query",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "password" : {
+        "type" : "oauth2",
+        "flows" : {
+          "password" : {
+            "tokenUrl" : "http://3.122.254.161:8082/api/v1/mmauth/oauth/token",
+            "scopes" : {
+              "ANALYTICS_DATA" : "allows reading analytics data"
+            }
+          }
+        }
+      }
+    }
+  }
+}

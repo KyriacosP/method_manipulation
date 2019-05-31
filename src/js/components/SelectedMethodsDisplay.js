@@ -19,55 +19,78 @@ class SelectedMethodsDisplay extends React.Component{
   constructor(){
     super();
     this.state={
-      methods:[],
       open: false,
       msg: ""
     };
   }
 
   handleDelete=(id)=>{
-    console.log(id);
     this.props.handleDelete(id);
-  }
-
-  componentDidMount(){
-    this.setState({methods:this.props.methods});
   }
 
   handleSubmit=()=>{
     let selOperationIds=[];
-    for (var i in this.state.methods){
-      selOperationIds.push(this.state.methods[i].operationId);
+    let tmp = JSON.parse(JSON.stringify(postResponse));
+    for (var i in this.props.methods){
+      selOperationIds.push(this.props.methods[i].operationId);
     };
-    postResponse.INTERNAL_STRUCTURE.Overview.tags = postResponse.INTERNAL_STRUCTURE.Overview.tags.filter((value, index, arr)=>{
+    tmp.INTERNAL_STRUCTURE.Overview.tags = tmp.INTERNAL_STRUCTURE.Overview.tags.filter((value, index, arr)=>{
       return selOperationIds.includes(value.method_id);
     });
-    postResponse.INTERNAL_STRUCTURE.Testing_Output_Data = postResponse.INTERNAL_STRUCTURE.Testing_Output_Data.filter((value, index, arr)=>{
+    tmp.INTERNAL_STRUCTURE.Testing_Output_Data = tmp.INTERNAL_STRUCTURE.Testing_Output_Data.filter((value, index, arr)=>{
       return selOperationIds.includes(value.method_id);
     });
-    postResponse.DATA_MANAGEMENT = postResponse.DATA_MANAGEMENT.filter((value, index, arr)=>{
+    tmp.DATA_MANAGEMENT = tmp.DATA_MANAGEMENT.filter((value, index, arr)=>{
       return selOperationIds.includes(value.method_id);
     });
-    for(var p in postResponse.EXPOSED_API.paths){
-      if(!selOperationIds.includes(postResponse.EXPOSED_API.paths[p].get.operationId)){
-        delete postResponse.EXPOSED_API.paths[p];
+    for(var p in tmp.EXPOSED_API.paths){
+      if(!selOperationIds.includes(tmp.EXPOSED_API.paths[p].get.operationId)){
+        delete tmp.EXPOSED_API.paths[p];
       }
     };
-    fetch('http://localhost:1880/forward', {
+    fetch('http://localhost:5000/forward', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(postResponse)
+      body: JSON.stringify(tmp)
     })
+      .then(res=>{
+        if(!res.ok){
+          throw Error(res);
+        }
+        return res;
+      })
       .then(data=>data.json())
       .then(data=>this.setState({open:true,msg:data.msg}))
-      .then(data=>this.props.clearSel());
+      .then(data=>this.props.clearSel())
+      .catch(error =>{console.log(error);this.setState({open:true,msg:"error"});});
   }
 
   handleClose = () => {
    this.setState({ open: false });
+  };
+
+  createCAF=() => {
+    fetch('http://localhost:5000/generate', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({methods:this.props.methods, exposedAPI: postResponse.EXPOSED_API})
+    })
+      .then(res=>{
+          if(!res.ok){
+            throw Error(res);
+          }
+          return res;
+        })
+      .then(data=>data.json())
+      .then(data=>this.setState({open:true,msg:data.msg}))
+      .then(data=>this.props.clearSel())
+      .catch(error =>{console.log(error);this.setState({open:true,msg:"error"});});
   };
 
   render(){
@@ -88,7 +111,7 @@ class SelectedMethodsDisplay extends React.Component{
       res= (
         <React.Fragment>
           {elems}
-          <Button variant="contained" color="primary" >Create New CAF (VDC)</Button>
+          <Button variant="contained" color="primary" onClick={this.createCAF}>Create New CAF (VDC)</Button>
           <Button variant="contained" color="secondary" onClick={this.handleSubmit} >Forward</Button>
         </React.Fragment>
       )

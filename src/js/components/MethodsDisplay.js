@@ -11,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-// import postBody from '../../resources/post_body.json';
+import $RefParser from 'json-schema-ref-parser';
 import postResponse from '../../resources';
 
 
@@ -20,7 +20,7 @@ class MethodsDisplay extends React.Component{
   constructor(){
     super();
     this.state={
-      isLoading:false,
+      isLoading:true,
       apiDesc:{},
       selection:[],
       selectedMethods:[],
@@ -68,9 +68,10 @@ class MethodsDisplay extends React.Component{
 
 
   componentDidMount(){
-    this.setState({isLoading:true});
-    this.setState({apiDesc: new ApiSpec(postResponse.EXPOSED_API)});
-    this.setState({isLoading:false});
+    $RefParser.dereference(postResponse.EXPOSED_API)
+      .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
+      .then(_=>this.setState({isLoading:false}))
+      .catch(err=>console.log(err));
   }
 
   updateGlobalSelection=(id,sel)=>{
