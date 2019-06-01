@@ -149,7 +149,7 @@ class MethodsDisplay extends React.Component{
             direction="row"
             justify="center"
             alignItems="flex-start"
-            spacing={8}
+            spacing={2}
           >
             <Grid item xs={6}>
               <form>

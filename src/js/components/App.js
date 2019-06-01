@@ -1,8 +1,10 @@
 import React from 'react';
 import Header from './Header'
 import MethodsDisplay from './MethodsDisplay'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/styles';
 import theme from '../themes/theme';
+
 
 class App extends React.Component {
 
@@ -13,11 +15,14 @@ class App extends React.Component {
 
   render(){
     return(
-      <MuiThemeProvider theme={createMuiTheme(theme)}>
+      <React.Fragment>
+      <ThemeProvider theme={createMuiTheme(theme)}>
         <Header/>
         <br/>
         <MethodsDisplay/>
-      </MuiThemeProvider>
+
+      </ThemeProvider>
+      </React.Fragment>
     )
   }
 }
