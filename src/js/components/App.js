@@ -15,14 +15,11 @@ class App extends React.Component {
 
   render(){
     return(
-      <React.Fragment>
       <ThemeProvider theme={createMuiTheme(theme)}>
         <Header/>
         <br/>
         <MethodsDisplay/>
-
       </ThemeProvider>
-      </React.Fragment>
     )
   }
 }

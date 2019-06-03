@@ -1,21 +1,44 @@
 import React from 'react';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MaterialTable from 'material-table';
+import {ThemeProvider} from '@material-ui/styles';
+import theme from '../themes/theme';
+import { createMuiTheme } from '@material-ui/core/styles';
 
-const styleGrid = {
-  marginTop: "-1em",
-  marginBottom: "1em",
-  backgroundColor: "primary"
-};
 
-class MethodResponseGrid extends React.Component{
+class MethodResponseGrid extends React.Component {
   constructor(props){
     super(props);
     this.state={
       rows:[],
       selection: []
     };
+  };
 
+  //removes duplicated selections (bug in material-table)
+  unique(array) {
+    let arr = [];
+    for(let i = 0; i < array.length; i++) {
+      if(!arr.some(x=>x.id===array[i].id)) {
+        arr.push(array[i]);
+      }
+    }
+    return arr;
+  }
+
+  addProperties(properties,rows,path,parentId,par,operationId){
+    let j=parentId;
+    for(let i in properties){
+      j++;
+      rows.push({id:j, name: i,path:path+"."+i, type: properties[i].type, parameters:par, partof:operationId,parentId:parentId});
+      if(Object.prototype.hasOwnProperty.call(properties[i], 'properties')){
+        j=this.addProperties(properties[i].properties,rows,path+"."+i,j,par,operationId);
+      }
+      else if(properties[i].type==="array")
+      {
+        j=this.addProperties(properties[i].items.properties,rows,path+".Array"+i,j,par,operationId);
+      }
+    }
+    return j;
   }
 
   componentDidMount(){
@@ -23,103 +46,60 @@ class MethodResponseGrid extends React.Component{
     var par=[];
     for (var p in method.parameters){
       par.push(method.parameters[p]);
-    }
-    //par=par.join(" ");
+    };
+    // par=par.join(" ");
     var rows=[];
     var schema=method.responseSchema;
     if(schema.type === "object"){
-      var temp1 = Object.entries(schema.properties);
-      for(var i in temp1){
-        rows.push({selected:false,name: temp1[i][0], type: temp1[i][1].type, parameters:par, partof:method.operationId});
-        // if(Object.prototype.hasOwnProperty.call(temp1[i][1], 'properties')){
-        //   console.log(temp1[i][1].properties);
-        //   var pro = Object.entries(temp1[i][1].properties);
-        //   for(let j in pro){
-        //     rows.push({selected:false,name: pro[j][0], type: pro[j][1].type, parameters:par, partof:method.operationId,member:temp1[i][0]});
-        //   }
-        // }
+      let j=1;
+      for(let i in schema.properties){
+        rows.push({id:j, name: i, path: i, type: schema.properties[i].type, parameters:par, partof:method.operationId});
+        if(Object.prototype.hasOwnProperty.call(schema.properties[i], 'properties')){
+          j=this.addProperties(schema.properties[i].properties,rows,i,j,par,method.operationId);
+        }
+        j++;
       }
-
     }else{
-      var temp2 = Object.entries(schema.items.properties);
-      for(var j in temp2){
-        rows.push({selected:false,name: temp2[j][0], type: temp2[j][1].type, parameters:par, partof:method.operationId});
-      }
+      rows.push({id:1, name: "", path:"Array", type: schema.type, parameters:par, partof:method.operationId});
+      this.addProperties(schema.items.properties,rows,"Array",1,par,method.operationId);
     }
-
-    this.setState({selection:rows})
-
-  }
-
-  onRowSelection=(rows)=>{
-    const selectedFeeds = [];
-    this.state.selection.forEach((feed, i) => {
-      feed.selected = rows.indexOf(i) > -1;
-      selectedFeeds.push(feed);
-    });
-    //this.setState({selection: selectedFeeds});
-    this.setState({selection: selectedFeeds}, () => {
-      this.props.updateState(selectedFeeds);
-      // console.log(this.state.selection);
-    });
-  }
-
-  // {this.state.selection.map(row => (
-  //   <TableRow key={row.name} selected={row.selected}>
-  //     <TableRowColumn style={{width: '50%',margin: 0}}>{row.name}</TableRowColumn>
-  //     <TableRowColumn style={{width: '20%',margin: 0}}>{row.type}</TableRowColumn>
-  //     <TableRowColumn style={{width: '30%',margin: 0}}>{row.parameters}</TableRowColumn>
-  //   </TableRow>
-  // ))}
-
-
-  // createRows=(rows)=>{
-  //   let tmp=rows.map(row => (
-  //     <TableRow key={row.name} selected={row.selected}>
-  //       <TableRowColumn style={{width: '50%',margin: 0}}>{row.name}{Object.prototype.hasOwnProperty.call(row, 'member') ? (" ("+row.member+")"):null}</TableRowColumn>
-  //       <TableRowColumn style={{width: '20%',margin: 0}}>{row.type}</TableRowColumn>
-  //       <TableRowColumn style={{width: '30%',margin: 0}}>{row.parameters}</TableRowColumn>
-  //     </TableRow>
-  //   ))
-  //
-  //   return tmp;
-  //
-  // }
-
-  createRows=(rows)=>{
-    let tmp=rows.map(row => (
-      <TableRow key={row.name} selected={row.selected}>
-        <TableRowColumn style={{width: '50%',margin: 0}}>{row.name}</TableRowColumn>
-        <TableRowColumn style={{width: '20%',margin: 0}}>{row.type}</TableRowColumn>
-        <TableRowColumn style={{width: '30%',margin: 0}}>{row.parameters.map(x=>x.name).join(" ")}</TableRowColumn>
-      </TableRow>
-    ))
-
-    return tmp;
-
+    this.setState({rows:rows});
   }
 
   render() {
     if(!this.props.hidden){
       return (
-        <MuiThemeProvider >
-          <Table style={styleGrid} multiSelectable={true} onRowSelection={this.onRowSelection}>
-            <TableHeader displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn style={{width: '50%',margin: 0}}>Name</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '20%',margin: 0}}>Type</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '30%',margin: 0}}>Parameters</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody deselectOnClickaway={false}>
-              {this.createRows(this.state.selection)}
-            </TableBody>
-          </Table>
-        </MuiThemeProvider>
-      );
+        <ThemeProvider theme={createMuiTheme(theme)}>
+          <MaterialTable
+            title={"Method: "+this.props.method.type+"  Path: "+this.props.method.path}
+            data={this.state.rows}
+            columns={[
+              { title: 'Name', field: 'name' },
+              { title: 'Type', field: 'type' },
+              {
+                title: 'Parameters',
+                field: 'parameters',
+                render: rowData=>rowData.parameters.map(x=>x.name).join(" ")
+              }
+            ]}
+            parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
+            options={{
+              selection: true,
+              showSelectAllCheckbox:false,
+              grouping:false,
+              sorting:false,
+              search: false,
+              paging: false
+            }}
+            onSelectionChange={(rows) => this.props.updateState(this.unique(rows))}
+
+          />
+        </ThemeProvider>
+      )
     }else{
       return null;
     }
   }
 }
+
 export default MethodResponseGrid

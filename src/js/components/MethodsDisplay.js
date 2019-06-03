@@ -62,14 +62,12 @@ class MethodsDisplay extends React.Component{
         }
       };
     })
-    console.log(this.state.selectedMethods);
-
   };
 
 
   componentDidMount(){
     $RefParser.dereference(postResponse.EXPOSED_API)
-      .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
+      .then(schema=>{this.setState({apiDesc: new ApiSpec(schema)})})
       .then(_=>this.setState({isLoading:false}))
       .catch(err=>console.log(err));
   }
@@ -113,19 +111,41 @@ class MethodsDisplay extends React.Component{
     // console.log(this.state.selection);
     // let method = new Method();
     // method.responseSchema={};
-    let tmp=[];
-    for(var i in this.state.selection){
-      for(var j in this.state.selection[i]){
-        if(this.state.selection[i][j].selected){
-          let obj=this.state.selection[i][j];
-          delete obj.selected;
-          tmp.push(obj);
+    this.setState(prevState=>{
+      let tmp=[];
+      for(var i in prevState.selection){
+        for(var j in prevState.selection[i]){
+          prevState.selection[i][j].tableData.checked=false;
+          tmp.push(prevState.selection[i][j]);
         }
       }
-    }
-    this.setState({selectedResponses:{...tmp}});
+      tmp=tmp.filter(x=>!tmp.map(x=>x.id).includes(x.parentId));
+      console.log(tmp);
+      return {
+        selectedResponses:{...tmp},
+        selection:prevState.selection
+      };
+    })
     this.handleOpen();
   }
+  // createNewMethod=()=>{
+  //   //apply rules
+  //   // console.log(this.state.selection);
+  //   // let method = new Method();
+  //   // method.responseSchema={};
+  //   let tmp=[];
+  //   for(var i in this.state.selection){
+  //     for(var j in this.state.selection[i]){
+  //       if(this.state.selection[i][j].selected){
+  //         let obj=this.state.selection[i][j];
+  //         delete obj.selected;
+  //         tmp.push(obj);
+  //       }
+  //     }
+  //   }
+  //   this.setState({selectedResponses:{...tmp}});
+  //   this.handleOpen();
+  // }
 
   clearSel=()=>{
     this.setState({selectedMethods:[]});
@@ -152,11 +172,9 @@ class MethodsDisplay extends React.Component{
             spacing={2}
           >
             <Grid item xs={6}>
-              <form>
                 {elems}
                 <br/>
                 <Button variant="contained" color="primary" onClick={this.createNewMethod}>Create New Method</Button>
-              </form>
             </Grid>
             <Grid item xs={6}>
               <SelectedMethodsDisplay methods={this.state.selectedMethods} handleDelete={this.handleDelete} clearSel={this.clearSel}/>

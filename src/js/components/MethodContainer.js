@@ -34,18 +34,13 @@ class MethodContainer extends React.Component{
     return(
       <React.Fragment>
         <Paper style={stylePaper}  >
-              <Typography style={{display:"inline-block",width:"90%"}} variant="h6" color="textSecondary" onClick={this.handleClick} >
-                Name: {this.props.method.operationId}
-              </Typography>
-              <IconButton style={{display:"inline-block",width:"10%"}} onClick={this.handleMethodSelection} >
-                <Send fontSize="small" />
-              </IconButton>
+          <Typography style={{display:"inline-block",width:"90%"}} variant="h6" color="textSecondary" onClick={this.handleClick} >
+            Name: {this.props.method.operationId}
+          </Typography>
+          <IconButton style={{display:"inline-block",width:"10%"}} onClick={this.handleMethodSelection} >
+            <Send fontSize="small" />
+          </IconButton>
         </Paper>
-        {!this.state.isHidden ?
-          (<Typography variant="h6" color="textSecondary" >
-             Method: {this.props.method.type}  Path: {this.props.method.path}
-          </Typography>) : null
-        }
         <MethodResponseGrid method={this.props.method} updateState={this.updateState} hidden={this.state.isHidden}/>
 
       </React.Fragment>
@@ -53,6 +48,5 @@ class MethodContainer extends React.Component{
   }
 
 }
-//{!this.state.isHidden ? <MethodResponseGrid method={this.props.method}/> : null}
 
 export default MethodContainer
