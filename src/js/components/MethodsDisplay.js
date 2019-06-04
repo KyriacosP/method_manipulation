@@ -14,7 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import $RefParser from 'json-schema-ref-parser';
 import postResponse from '../../resources';
 
-
+//MethodsDisplay is a high level component that renders the MethodContainers and SelectedMethodsDisplay
+//also handle the logic behind selecting responses and creating new methods
 
 class MethodsDisplay extends React.Component{
   constructor(){
@@ -34,10 +35,13 @@ class MethodsDisplay extends React.Component{
     };
   }
 
+  //Dialog Open
   handleOpen = () => {
     this.setState({ open: true });
   };
 
+  //Dialog Close
+  //also handles the new method creation and states updates
   handleClose = () => {
     this.setState({ open: false });
     let desc={};
@@ -65,6 +69,7 @@ class MethodsDisplay extends React.Component{
   };
 
 
+  //Retrieves the api specification and removes all the references using $RefParser
   componentDidMount(){
     $RefParser.dereference(postResponse.EXPOSED_API)
       .then(schema=>{this.setState({apiDesc: new ApiSpec(schema)})})
@@ -72,6 +77,7 @@ class MethodsDisplay extends React.Component{
       .catch(err=>console.log(err));
   }
 
+  //handles state.selection updates from the MethodResponseGrid component
   updateGlobalSelection=(id,sel)=>{
     this.setState(prevState=>{
       prevState.selection[id]=sel;
@@ -79,6 +85,7 @@ class MethodsDisplay extends React.Component{
     })
   }
 
+  //handles whole method selections from the MethodContainer component
   handleMethodSelection=(methodSelected)=>{
     this.setState(prevState=>{
       let tmp=prevState.selectedMethods;
@@ -87,6 +94,7 @@ class MethodsDisplay extends React.Component{
     });
   }
 
+  //handles controlled form data in Dialog component
   handleChange = name=>({target:{value}}) => {
     this.setState(prevState=>{
       return {
@@ -98,6 +106,7 @@ class MethodsDisplay extends React.Component{
     });
   };
 
+  //handles method delete from the SelectedMethodsDisplay component
   handleDelete=(m)=>{
     this.setState(prevState=>{
       prevState.selectedMethods.splice(m,1);
@@ -106,11 +115,11 @@ class MethodsDisplay extends React.Component{
 
   }
 
+  //its called when the Create new Method button is pressed
+  //prepares the selection array (removes duplicates and fixes parent children duplicates due to material-table bug)
+  //checks the selection against a set of rules
   createNewMethod=()=>{
     //apply rules
-    // console.log(this.state.selection);
-    // let method = new Method();
-    // method.responseSchema={};
     this.setState(prevState=>{
       let tmp=[];
       for(var i in prevState.selection){
@@ -128,25 +137,8 @@ class MethodsDisplay extends React.Component{
     })
     this.handleOpen();
   }
-  // createNewMethod=()=>{
-  //   //apply rules
-  //   // console.log(this.state.selection);
-  //   // let method = new Method();
-  //   // method.responseSchema={};
-  //   let tmp=[];
-  //   for(var i in this.state.selection){
-  //     for(var j in this.state.selection[i]){
-  //       if(this.state.selection[i][j].selected){
-  //         let obj=this.state.selection[i][j];
-  //         delete obj.selected;
-  //         tmp.push(obj);
-  //       }
-  //     }
-  //   }
-  //   this.setState({selectedResponses:{...tmp}});
-  //   this.handleOpen();
-  // }
 
+  //clears state after a new CAF is created it's called from the SelectedMethodsDisplay component
   clearSel=()=>{
     this.setState({selectedMethods:[]});
   }

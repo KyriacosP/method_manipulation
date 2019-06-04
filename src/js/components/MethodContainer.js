@@ -18,14 +18,17 @@ class MethodContainer extends React.Component{
     }
   }
 
+  //this method is used as a midlewear between MethodsDisplay and MethodResponseGrid for the updateGlobalSelection method
   updateState=(sel)=>{
     this.props.updateGlobalSelection(this.props.id,sel);
   }
 
+  //handles the visibility of the MethodResponseGrid component
   handleClick=()=>{
     this.setState(prevState => {return {isHidden:!prevState.isHidden}});
   }
 
+  //this function is used as a midlewear between MethodsDisplay and MethodContainer for the handleMethodSelection method
   handleMethodSelection=(event)=>{
     this.props.handleMethodSelection(this.props.method)
   }

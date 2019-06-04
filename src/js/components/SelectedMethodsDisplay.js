@@ -24,10 +24,13 @@ class SelectedMethodsDisplay extends React.Component{
     };
   }
 
+  //handles selected method deletion calls handleDelete from MethodsDisplay
   handleDelete=(id)=>{
     this.props.handleDelete(id);
   }
 
+  //prepares openapi spec for "light version"
+  //posts results to http://localhost:5000/forward
   handleSubmit=()=>{
     let selOperationIds=[];
     let tmp = JSON.parse(JSON.stringify(postResponse));
@@ -68,10 +71,12 @@ class SelectedMethodsDisplay extends React.Component{
       .catch(error =>{console.log(error);this.setState({open:true,msg:"error"});});
   }
 
+  //handles close for confirmation Dialog
   handleClose = () => {
    this.setState({ open: false });
   };
 
+  //posts the selected methods along with original api spec to http://localhost:5000/generate
   createCAF=() => {
     fetch('http://localhost:5000/generate', {
       method: 'POST',

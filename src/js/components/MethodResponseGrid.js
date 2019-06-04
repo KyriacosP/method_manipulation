@@ -27,6 +27,7 @@ class MethodResponseGrid extends React.Component {
     return arr;
   }
 
+  //recursive method to handle nested objects
   addProperties(properties,rows,path,parentId,par,operationId){
     let j=parentId;
     for(let i in properties){
@@ -43,13 +44,13 @@ class MethodResponseGrid extends React.Component {
     return j;
   }
 
+  //prepares top level responses for the MaterialTable calls addProperties for nested objects
   componentDidMount(){
     var method=this.props.method;
     var par=[];
     for (var p in method.parameters){
       par.push(method.parameters[p]);
     };
-    // par=par.join(" ");
     var rows=[];
     var schema=method.responseSchema;
     if(schema.type === "object"){

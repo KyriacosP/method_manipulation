@@ -1,3 +1,5 @@
+
+//used as helper class to handle methods(paths) in the openapi spec
 class Method {
 
   constructor(path,desc){

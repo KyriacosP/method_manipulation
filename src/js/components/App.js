@@ -13,6 +13,7 @@ class App extends React.Component {
     this.state={};
   }
 
+  //app entry point
   render(){
     return(
       <ThemeProvider theme={createMuiTheme(theme)}>
