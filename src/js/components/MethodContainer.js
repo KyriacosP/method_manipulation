@@ -34,7 +34,7 @@ class MethodContainer extends React.Component{
     return(
       <React.Fragment>
         <Paper style={stylePaper}  >
-          <Typography style={{display:"inline-block",width:"90%"}} variant="h6" color="textSecondary" onClick={this.handleClick} >
+          <Typography style={{display:"inline-block",width:"90%"}} variant="h6" color="textSecondary" onClick={this.handleClick} noWrap >
             Name: {this.props.method.operationId}
           </Typography>
           <IconButton style={{display:"inline-block",width:"10%"}} onClick={this.handleMethodSelection} >

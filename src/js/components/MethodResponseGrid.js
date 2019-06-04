@@ -3,6 +3,8 @@ import MaterialTable from 'material-table';
 import {ThemeProvider} from '@material-ui/styles';
 import theme from '../themes/theme';
 import { createMuiTheme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 
 class MethodResponseGrid extends React.Component {
@@ -71,7 +73,13 @@ class MethodResponseGrid extends React.Component {
       return (
         <ThemeProvider theme={createMuiTheme(theme)}>
           <MaterialTable
-            title={"Method: "+this.props.method.type+"  Path: "+this.props.method.path}
+            title={
+              <div>
+                <Typography variant="h6" color="textSecondary" >
+                  Method: {this.props.method.type}  Path: {this.props.method.path}
+                </Typography>
+              </div>
+              }
             data={this.state.rows}
             columns={[
               { title: 'Name', field: 'name' },

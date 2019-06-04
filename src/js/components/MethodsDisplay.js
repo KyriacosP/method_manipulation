@@ -170,8 +170,9 @@ class MethodsDisplay extends React.Component{
             justify="center"
             alignItems="flex-start"
             spacing={2}
+            wrap="nowrap"
           >
-            <Grid item xs={6}>
+            <Grid item xs={6} zeroMinWidth>
                 {elems}
                 <br/>
                 <Button variant="contained" color="primary" onClick={this.createNewMethod}>Create New Method</Button>
