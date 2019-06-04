@@ -37,7 +37,7 @@ class MethodResponseGrid extends React.Component {
       }
       else if(properties[i].type==="array")
       {
-        j=this.addProperties(properties[i].items.properties,rows,path+".Array"+i,j,par,operationId);
+        j=this.addProperties(properties[i].items.properties,rows,path+"."+i,j,par,operationId);
       }
     }
     return j;
