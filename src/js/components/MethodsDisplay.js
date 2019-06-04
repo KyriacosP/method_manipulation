@@ -72,7 +72,7 @@ class MethodsDisplay extends React.Component{
   //Retrieves the api specification and removes all the references using $RefParser
   componentDidMount(){
     $RefParser.dereference(postResponse.EXPOSED_API)
-      .then(schema=>{this.setState({apiDesc: new ApiSpec(schema)})})
+      .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
       .then(_=>this.setState({isLoading:false}))
       .catch(err=>console.log(err));
   }
