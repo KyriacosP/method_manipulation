@@ -26,6 +26,8 @@ class MethodsDisplay extends React.Component{
       selection:[],
       selectedMethods:[],
       open:false,
+      openErr:false,
+      error:"",
       form:{
         summary: "",
         description: "",
@@ -72,9 +74,9 @@ class MethodsDisplay extends React.Component{
   //Retrieves the api specification and removes all the references using $RefParser
   componentDidMount(){
     $RefParser.dereference(postResponse.EXPOSED_API)
-      .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
-      .then(_=>this.setState({isLoading:false}))
-      .catch(err=>console.log(err));
+    .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
+    .then(_=>this.setState({isLoading:false}))
+    .catch(err=>console.log(err));
   }
 
   //handles state.selection updates from the MethodResponseGrid component
@@ -115,27 +117,67 @@ class MethodsDisplay extends React.Component{
 
   }
 
+  applyRules=(array)=>{
+    //first rule: in a oneOf type methods only selections from the same schema are allowed
+    let fra=array.map(x=>x.path).filter(x=>x.includes('oneOf'));
+    fra=fra.map(x=>x.split(".")[1]);
+    for(let i in fra)
+    {
+      if(fra[0]!==fra[i])
+      {
+        return {pass:false,error:"Select properties only from a single Schema in methods of type oneOf"};
+      }
+    }
+
+    //second rule: no selections with the same path from different methods are allowed (implementation constrain)
+    let sra=array.map(x=>x.path);
+    const dupes = sra.reduce((acc, v, i, arr) => arr.indexOf(v) !== i && acc.indexOf(v) === -1 ? acc.concat(v) : acc, [])
+    if(dupes.length!==0){
+      return {pass:false,error:"Properties with the same path have been selected: "+dupes.join(", ")};
+    }
+
+    //return pass true if both test have passed
+    return {pass:true,error:""};
+  }
+
   //its called when the Create new Method button is pressed
   //prepares the selection array (removes duplicates and fixes parent children duplicates due to material-table bug)
   //checks the selection against a set of rules
   createNewMethod=()=>{
     //apply rules
-    this.setState(prevState=>{
-      let tmp=[];
-      for(var i in prevState.selection){
-        for(var j in prevState.selection[i]){
-          prevState.selection[i][j].tableData.checked=false;
-          tmp.push(prevState.selection[i][j]);
-        }
+    let sel=this.state.selection;
+    let tmp=[];
+    for(var i in sel){
+      for(var j in sel[i]){
+        tmp.push(sel[i][j]);
+        tmp[tmp.length-1].tableData.checked=false;
       }
-      tmp=tmp.filter(x=>!tmp.map(x=>x.id).includes(x.parentId));
-      console.log(tmp);
-      return {
+    }
+    tmp=tmp.filter(x=>!tmp.map(x=>x.id).includes(x.parentId));
+    // console.log(tmp);
+    let {pass,error}=this.applyRules(tmp);
+    if(pass){
+      this.setState({
         selectedResponses:{...tmp},
-        selection:prevState.selection
-      };
-    })
-    this.handleOpen();
+        selection:[]
+      });
+      this.handleOpen();
+    }
+    else {
+      this.setState({
+        selectedResponses:{},
+        selection:[],
+        openErr:true,
+        error:error
+      });
+    }
+  }
+
+  handleCloseErr=()=>{
+    this.setState({
+      openErr:false,
+      error:""
+    });
   }
 
   //clears state after a new CAF is created it's called from the SelectedMethodsDisplay component
@@ -165,9 +207,9 @@ class MethodsDisplay extends React.Component{
             wrap="nowrap"
           >
             <Grid item xs={6} zeroMinWidth>
-                {elems}
-                <br/>
-                <Button variant="contained" color="primary" onClick={this.createNewMethod}>Create New Method</Button>
+              {elems}
+              <br/>
+              <Button variant="contained" color="primary" onClick={this.createNewMethod}>Create New Method</Button>
             </Grid>
             <Grid item xs={6}>
               <SelectedMethodsDisplay methods={this.state.selectedMethods} handleDelete={this.handleDelete} clearSel={this.clearSel}/>
@@ -222,11 +264,27 @@ class MethodsDisplay extends React.Component{
               </Button>
             </DialogActions>
           </Dialog>
+          <Dialog
+            open={this.state.openErr}
+            onClose={this.handleCloseErr}
+          >
+            <DialogTitle>ERROR!</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                {this.state.error}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleCloseErr} variant="contained" color="primary">
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </React.Fragment>
       );
     }
   }
 
-  }
+}
 
-  export default MethodsDisplay
+export default MethodsDisplay

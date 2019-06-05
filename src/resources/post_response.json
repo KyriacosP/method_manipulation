@@ -1687,106 +1687,201 @@
             },
             "_id":"5cdbc548763d081d2659cefa",
             "EXPOSED_API":{
+               "openapi":"3.0.2",
+               "info":{
+                  "title":"CAF API",
+                  "version":"0.0.1"
+               },
                "servers":[
                   {
                      "description":"CAF server",
                      "url":"http://localhost:1880/CAF"
                   }
                ],
-               "openapi":"3.0.2",
                "paths":{
-                  "/patient/{SSN}/blood-test/component/{component}":{
+                  "/patient/{SSN}":{
                      "get":{
-                        "summary":"Get timeseries of patient's blood test component",
-                        "description":"This method returns the collected values for a specific blood test component of a patient (identified by his SSN), to be used by medical doctors",
-                        "operationId":"getAllValuesForBloodTestComponent",
+                        "summary":"Get patient's biographical data",
+                        "description":"This method returns the biographical data for the specified patient (identified via SSN), to be used by medical doctors",
+                        "operationId":"getPatientBiographicalData",
+                        "parameters":[
+                           {
+                              "name":"SSN",
+                              "in":"path",
+                              "description":"SSN of the patient",
+                              "required":true,
+                              "schema":{
+                                 "type":"string",
+                                 "example":"SLSDNA54P69R065W"
+                              }
+                           }
+                        ],
                         "responses":{
                            "200":{
-                              "description":"Values for the specified blood test component in the patient's blood tests",
+                              "description":"Biographical data of the patient",
                               "content":{
                                  "application/json":{
                                     "schema":{
-                                       "type":"array",
-                                       "items":{
-                                          "type":"object",
-                                          "properties":{
-                                             "date":{
-                                                "type":"string"
-                                             },
-                                             "haemoglobin":{
-                                                "type":"object"
-                                             },
-                                             "antiThrombin":{
-                                                "type":"object"
-                                             },
-                                             "plateletCount":{
-                                                "type":"object"
-                                             },
-                                             "patientId":{
-                                                "type":"string"
-                                             },
-                                             "cholesterol":{
-                                                "type":"object",
-                                                "properties":{
-                                                   "hdl":{
-                                                      "type":"object"
-                                                   },
-                                                   "total":{
-                                                      "type":"object"
-                                                   },
-                                                   "ldl":{
-                                                      "type":"object"
-                                                   },
-                                                   "triglycerides":{
-                                                      "type":"object"
-                                                   }
-                                                }
-                                             },
-                                             "prothrombinTime":{
-                                                "type":"object"
-                                             },
-                                             "totalWhiteCellCount":{
-                                                "type":"object"
-                                             },
-                                             "fribrinogen":{
-                                                "type":"object"
-                                             }
+                                       "type":"object",
+                                       "properties":{
+                                          "addressCity":{
+                                             "type":"string"
                                           },
-                                          "required":[
-                                             "date",
-                                             "patientId"
-                                          ]
-                                       }
+                                          "addressRoad":{
+                                             "type":"string"
+                                          },
+                                          "addressRoadNumber":{
+                                             "type":"number"
+                                          },
+                                          "addressPostalCode":{
+                                             "type":"number"
+                                          },
+                                          "addressTelephoneNumber":{
+                                             "type":"string"
+                                          },
+                                          "birthCity":{
+                                             "type":"string"
+                                          },
+                                          "nationality":{
+                                             "type":"string"
+                                          },
+                                          "job":{
+                                             "type":"string"
+                                          },
+                                          "schoolYears":{
+                                             "type":"number"
+                                          },
+                                          "birthDate":{
+                                             "type":"string"
+                                          },
+                                          "gender":{
+                                             "type":"string"
+                                          },
+                                          "name":{
+                                             "type":"string"
+                                          },
+                                          "patientId":{
+                                             "type":"string"
+                                          },
+                                          "socialId":{
+                                             "type":"string"
+                                          },
+                                          "surname":{
+                                             "type":"string"
+                                          },
+                                          "familyDoctorId":{
+                                             "type":"string"
+                                          }
+                                       },
+                                       "required":[
+                                          "birthDate",
+                                          "gender",
+                                          "name",
+                                          "patientId",
+                                          "socialId",
+                                          "surname",
+                                          "familyDoctorId"
+                                       ]
                                     }
                                  }
                               }
                            }
                         },
                         "x-data-sources":[
-                           "patientBiographicalData",
-                           "bloodTestSource"
-                        ],
+                           "patientBiographicalData"
+                        ]
+                     }
+                  },
+                  "/patientTest/{SSN}":{
+                     "get":{
+                        "summary":"Get patient's biographical data",
+                        "description":"This method returns the biographical data for the specified patient (identified via SSN), to be used by medical doctors",
+                        "operationId":"getPatientBiographicalDataTest",
                         "parameters":[
                            {
+                              "name":"SSN",
+                              "in":"path",
+                              "description":"SSN of the patient",
+                              "required":true,
                               "schema":{
                                  "type":"string",
                                  "example":"SLSDNA54P69R065W"
-                              },
-                              "in":"path",
-                              "name":"SSN",
-                              "description":"SSN of the patient",
-                              "required":true
-                           },
-                           {
-                              "schema":{
-                                 "type":"string",
-                                 "example":"haemoglobin"
-                              },
-                              "in":"path",
-                              "name":"component",
-                              "description":"Blood test component for which the values are requested",
-                              "required":true
+                              }
                            }
+                        ],
+                        "responses":{
+                           "200":{
+                              "description":"Biographical data of the patient",
+                              "content":{
+                                 "application/json":{
+                                    "schema":{
+                                       "type":"object",
+                                       "properties":{
+                                          "addressCity":{
+                                             "type":"string"
+                                          },
+                                          "addressRoad":{
+                                             "type":"string"
+                                          },
+                                          "addressRoadNumber":{
+                                             "type":"number"
+                                          },
+                                          "addressPostalCode":{
+                                             "type":"number"
+                                          },
+                                          "addressTelephoneNumber":{
+                                             "type":"string"
+                                          },
+                                          "birthCity":{
+                                             "type":"string"
+                                          },
+                                          "nationality":{
+                                             "type":"string"
+                                          },
+                                          "job":{
+                                             "type":"string"
+                                          },
+                                          "schoolYears":{
+                                             "type":"number"
+                                          },
+                                          "birthDate":{
+                                             "type":"string"
+                                          },
+                                          "gender":{
+                                             "type":"string"
+                                          },
+                                          "name":{
+                                             "type":"string"
+                                          },
+                                          "patientId":{
+                                             "type":"string"
+                                          },
+                                          "socialId":{
+                                             "type":"string"
+                                          },
+                                          "surname":{
+                                             "type":"string"
+                                          },
+                                          "familyDoctorId":{
+                                             "type":"string"
+                                          }
+                                       },
+                                       "required":[
+                                          "birthDate",
+                                          "gender",
+                                          "name",
+                                          "patientId",
+                                          "socialId",
+                                          "surname",
+                                          "familyDoctorId"
+                                       ]
+                                    }
+                                 }
+                              }
+                           }
+                        },
+                        "x-data-sources":[
+                           "patientBiographicalData"
                         ]
                      }
                   },
@@ -1795,6 +1890,18 @@
                         "summary":"Get patient's latest values for all measured components",
                         "description":"This method returns the latest values of all the blood test components measured on a patient (identified by his SSN), to be used by medical doctors",
                         "operationId":"getLastValuesForBloodTest",
+                        "parameters":[
+                           {
+                              "name":"SSN",
+                              "in":"path",
+                              "description":"SSN of the patient",
+                              "required":true,
+                              "schema":{
+                                 "type":"string",
+                                 "example":"SLSDNA54P69R065W"
+                              }
+                           }
+                        ],
                         "responses":{
                            "200":{
                               "description":"Latest values of all blood test components measured on the patient",
@@ -1857,91 +1964,211 @@
                         "x-data-sources":[
                            "patientBiographicalData",
                            "bloodTestSource"
-                        ],
-                        "parameters":[
-                           {
-                              "schema":{
-                                 "type":"string",
-                                 "example":"SLSDNA54P69R065W"
-                              },
-                              "in":"path",
-                              "name":"SSN",
-                              "description":"SSN of the patient",
-                              "required":true
-                           }
                         ]
                      }
                   },
-                  "/patient/{SSN}":{
+                  "/patient/{SSN}/blood-test/component/{component}":{
                      "get":{
-                        "summary":"Get patient's biographical data",
-                        "description":"This method returns the biographical data for the specified patient (identified via SSN), to be used by medical doctors",
-                        "operationId":"getPatientBiographicalData",
+                        "summary":"Get timeseries of patient's blood test component",
+                        "description":"This method returns the collected values for a specific blood test component of a patient (identified by his SSN), to be used by medical doctors",
+                        "operationId":"getAllValuesForBloodTestComponent",
+                        "parameters":[
+                           {
+                              "name":"SSN",
+                              "in":"path",
+                              "description":"SSN of the patient",
+                              "required":true,
+                              "schema":{
+                                 "type":"string",
+                                 "example":"SLSDNA54P69R065W"
+                              }
+                           },
+                           {
+                              "name":"component",
+                              "in":"path",
+                              "description":"Blood test component for which the values are requested",
+                              "required":true,
+                              "schema":{
+                                 "type":"string",
+                                 "example":"haemoglobin"
+                              }
+                           }
+                        ],
                         "responses":{
                            "200":{
-                              "description":"Biographical data of the patient",
+                              "description":"Values for the specified blood test component in the patient's blood tests",
                               "content":{
                                  "application/json":{
                                     "schema":{
-                                       "type":"object",
-                                       "properties":{
-                                          "addressRoadNumber":{
-                                             "type":"number"
+                                       "oneOf":[
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "haemoglobin":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "haemoglobin",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "gender":{
-                                             "type":"string"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "antiThrombin":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "antiThrombin",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "schoolYears":{
-                                             "type":"number"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "plateletCount":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "plateletCount",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "patientId":{
-                                             "type":"string"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "cholesterol":{
+                                                      "type":"object",
+                                                      "properties":{
+                                                         "hdl":{
+                                                            "type":"object"
+                                                         },
+                                                         "total":{
+                                                            "type":"object"
+                                                         },
+                                                         "ldl":{
+                                                            "type":"object"
+                                                         },
+                                                         "triglycerides":{
+                                                            "type":"object"
+                                                         }
+                                                      }
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "cholesterol",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "birthCity":{
-                                             "type":"string"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "prothrombinTime":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "prothrombinTime",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "familyDoctorId":{
-                                             "type":"string"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "totalWhiteCellCount":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "totalWhiteCellCount",
+                                                   "patientId"
+                                                ]
+                                             }
                                           },
-                                          "birthDate":{
-                                             "type":"string"
-                                          },
-                                          "addressPostalCode":{
-                                             "type":"number"
-                                          },
-                                          "addressRoad":{
-                                             "type":"string"
-                                          },
-                                          "nationality":{
-                                             "type":"string"
-                                          },
-                                          "surname":{
-                                             "type":"string"
-                                          },
-                                          "socialId":{
-                                             "type":"string"
-                                          },
-                                          "name":{
-                                             "type":"string"
-                                          },
-                                          "job":{
-                                             "type":"string"
-                                          },
-                                          "addressTelephoneNumber":{
-                                             "type":"string"
-                                          },
-                                          "addressCity":{
-                                             "type":"string"
+                                          {
+                                             "type":"array",
+                                             "items":{
+                                                "type":"object",
+                                                "properties":{
+                                                   "date":{
+                                                      "type":"string"
+                                                   },
+                                                   "fribrinogen":{
+                                                      "type":"object"
+                                                   },
+                                                   "patientId":{
+                                                      "type":"string"
+                                                   }
+                                                },
+                                                "required":[
+                                                   "date",
+                                                   "fribrinogen",
+                                                   "patientId"
+                                                ]
+                                             }
                                           }
-                                       },
-                                       "required":[
-                                          "birthDate",
-                                          "gender",
-                                          "name",
-                                          "patientId",
-                                          "socialId",
-                                          "surname",
-                                          "familyDoctorId"
                                        ]
                                     }
                                  }
@@ -1949,26 +2176,11 @@
                            }
                         },
                         "x-data-sources":[
-                           "patientBiographicalData"
-                        ],
-                        "parameters":[
-                           {
-                              "schema":{
-                                 "type":"string",
-                                 "example":"SLSDNA54P69R065W"
-                              },
-                              "in":"path",
-                              "name":"SSN",
-                              "description":"SSN of the patient",
-                              "required":true
-                           }
+                           "patientBiographicalData",
+                           "bloodTestSource"
                         ]
                      }
                   }
-               },
-               "info":{
-                  "title":"CAF API",
-                  "version":"0.0.1"
                }
             }
          },

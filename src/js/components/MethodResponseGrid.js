@@ -4,7 +4,6 @@ import {ThemeProvider} from '@material-ui/styles';
 import theme from '../themes/theme';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 
 
 class MethodResponseGrid extends React.Component {
@@ -53,7 +52,22 @@ class MethodResponseGrid extends React.Component {
     };
     var rows=[];
     var schema=method.responseSchema;
-    if(schema.type === "object"){
+    if(Object.prototype.hasOwnProperty.call(schema, 'oneOf')){
+      let j=1;
+      rows.push({id:j, name: "oneOf", path: "oneOf", type: "oneOf", parameters:par, partof:method.operationId});
+      j++
+      for(let i in schema.oneOf){
+        rows.push({id:j, name: "schema: "+i, path: "oneOf.schema"+i, type: "oneOf", parameters:par, partof:method.operationId,parentId:1});
+        if(schema.type === "object"){
+          j=this.addProperties(schema.oneOf[i].properties,rows,"oneOf.schema"+i+".",j,par,method.operationId);
+        }
+        else{
+          j=this.addProperties(schema.oneOf[i].items.properties,rows,"oneOf.schema"+i+".Array",j,par,method.operationId);
+        }
+        j++;
+      }
+
+    }else if(schema.type === "object"){
       let j=1;
       for(let i in schema.properties){
         rows.push({id:j, name: i, path: i, type: schema.properties[i].type, parameters:par, partof:method.operationId});
@@ -94,6 +108,10 @@ class MethodResponseGrid extends React.Component {
             parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
             options={{
               selection: true,
+              selectionProps: rowData => ({
+                disabled: rowData.type === 'oneOf',
+                color: 'secondary'
+              }),
               showSelectAllCheckbox:false,
               grouping:false,
               sorting:false,
