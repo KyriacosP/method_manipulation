@@ -109,7 +109,7 @@ class MethodResponseGrid extends React.Component {
             options={{
               selection: true,
               selectionProps: rowData => ({
-                disabled: rowData.type === 'oneOf',
+                disabled: rowData.type === 'oneOf' || rowData.tableData.childRows!==null,
                 color: 'secondary'
               }),
               showSelectAllCheckbox:false,

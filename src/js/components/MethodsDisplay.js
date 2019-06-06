@@ -74,7 +74,7 @@ class MethodsDisplay extends React.Component{
   //Retrieves the api specification and removes all the references using $RefParser
   componentDidMount(){
     $RefParser.dereference(postResponse.EXPOSED_API)
-    .then(schema=>{console.log(schema);this.setState({apiDesc: new ApiSpec(schema)})})
+    .then(schema=>{this.setState({apiDesc: new ApiSpec(schema)})})
     .then(_=>this.setState({isLoading:false}))
     .catch(err=>console.log(err));
   }
@@ -154,7 +154,6 @@ class MethodsDisplay extends React.Component{
       }
     }
     tmp=tmp.filter(x=>!tmp.map(x=>x.id).includes(x.parentId));
-    // console.log(tmp);
     let {pass,error}=this.applyRules(tmp);
     if(pass){
       this.setState({
