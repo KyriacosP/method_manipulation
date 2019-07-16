@@ -114,7 +114,6 @@ class MethodsDisplay extends React.Component{
       prevState.selectedMethods.splice(m,1);
       return {selectedMethods:prevState.selectedMethods};
     })
-
   }
 
   applyRules=(array)=>{

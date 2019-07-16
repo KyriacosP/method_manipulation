@@ -10,8 +10,7 @@ class MethodResponseGrid extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      rows:[],
-      selection: []
+      rows:[]
     };
   };
 
@@ -102,7 +101,7 @@ class MethodResponseGrid extends React.Component {
               {
                 title: 'Parameters',
                 field: 'parameters',
-                render: rowData=>rowData.parameters.map(x=>x.name).join(" ")
+                render: rowData=>rowData.parameters.map(x=>x.name).join(", ")
               }
             ]}
             parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}

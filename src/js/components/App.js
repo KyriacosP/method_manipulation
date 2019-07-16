@@ -8,11 +8,6 @@ import theme from '../themes/theme';
 
 class App extends React.Component {
 
-  constructor(){
-    super();
-    this.state={};
-  }
-
   //app entry point
   render(){
     return(
