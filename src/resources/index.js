@@ -1,7 +1,7 @@
 import post_response from './post_response.json'
 // import testAPI from './testAPI.json'
 
-const postResponse=post_response.candidates[1].blueprint;
+const postResponse=post_response.candidates[0].blueprint;
 
 // const postResponse={};
 
