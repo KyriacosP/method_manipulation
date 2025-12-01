@@ -9,13 +9,13 @@
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.0.2",
-    "json-schema-ref-parser": "^6.1.0",
+    "json-schema-ref-parser": "^9.0.9",
     "material-design-icons": "^3.0.1",
     "material-table": "^1.39.0",
     "material-ui": "^0.20.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0",
+    "react-scripts": "5.0.1",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
